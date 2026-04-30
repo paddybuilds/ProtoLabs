@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ProtoLabs | FC Tournament Platform",
+  title: "Elo Labs | FC Tournament Platform",
   description:
     "Host and manage FC tournaments. Create tournament pages, manage signups, run brackets, and keep your community updated.",
 };

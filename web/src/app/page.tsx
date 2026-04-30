@@ -34,9 +34,9 @@ export default function Home() {
     <main className="min-h-screen bg-[#0e0e10] text-[#efeff1]">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav className="mx-auto flex h-20 max-w-5xl items-center justify-between px-5 lg:px-8">
-          <a href="#" className="flex items-center gap-3" aria-label="ProtoLabs home">
+          <a href="#" className="flex items-center gap-3" aria-label="Elo Labs home">
             <LogoMark />
-            <span className="text-sm font-semibold uppercase tracking-[0.2em]">ProtoLabs</span>
+            <span className="text-sm font-semibold uppercase tracking-[0.2em]">Elo Labs</span>
           </a>
 
 <div className="flex items-center gap-2">
@@ -82,7 +82,53 @@ export default function Home() {
           
           
           
-          <div className="absolute inset-x-0 top-[16%] flex justify-center">
+<div className="absolute top-[5%] left-1/2 -translate-x-1/2 w-[400px] h-[80px] bg-amber-200/10 rounded-full blur-3xl" />
+          <div className="absolute top-[5%] left-[25%] w-[200px] h-[60px] bg-amber-200/8 rounded-full blur-2xl" />
+          <div className="absolute top-[5%] right-[25%] w-[200px] h-[60px] bg-amber-200/8 rounded-full blur-2xl" />
+          
+          
+          
+          <div className="absolute bottom-0 left-0 right-0 h-[380px] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0a1408] via-[#1a3d1a] to-[#0f290f]" />
+            <div className="absolute inset-0" 
+              style={{
+                backgroundImage: `
+                  repeating-linear-gradient(180deg, 
+                    rgba(30,90,30,0.4) 0px, 
+                    rgba(30,90,30,0.4) 30px, 
+                    rgba(45,120,45,0.3) 30px, 
+                    rgba(45,120,45,0.3) 60px
+                  ),
+                  repeating-linear-gradient(90deg, 
+                    rgba(25,80,25,0.3) 0px, 
+                    rgba(25,80,25,0.3) 50px,
+                    transparent 50px,
+                    transparent 100px
+                  )
+                `,
+                backgroundSize: '100% 60px, 100px 100%',
+              }}
+            />
+            <div className="absolute inset-0 opacity-30"
+              style={{
+                backgroundImage: `
+                  repeating-linear-gradient(90deg, transparent 0px, rgba(34,139,34,0.15) 1px, transparent 2px),
+                  repeating-linear-gradient(0deg, transparent 0px, rgba(34,139,34,0.1) 1px, transparent 2px)
+                `,
+                backgroundSize: '4px 100%, 100% 4px',
+              }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-[60px] bg-gradient-to-t from-[#0a1408] to-transparent" />
+<div className="absolute inset-0 shadow-[inset_0_50px_100px_rgba(0,0,0,0.5)]" />
+          </div>
+          
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-[900px] h-[35vh]" style={{ bottom: '7%' }}>
+              <div className="absolute inset-0 border-4 border-white/50 shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
+              <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[55%] h-[45%] border-x-4 border-b-4 border-white/50 shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
+              <div className="absolute left-1/2 -translate-x-1/2 top-[65%] w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+            </div>
+          
+          <div className="absolute inset-x-0 top-[15%] flex justify-center">
             <div className="relative" style={{ width: '780px', height: '390px' }}>
               <div className="absolute left-0 bottom-0 w-[10px] h-[370px] bg-gradient-to-t from-[#1a2e1a] via-[#2d4a2d] to-[#1a2e1a] rounded-l-sm" />
               <div className="absolute right-0 bottom-0 w-[10px] h-[370px] bg-gradient-to-t from-[#1a2e1a] via-[#2d4a2d] to-[#1a2e1a] rounded-r-sm" />
@@ -104,57 +150,16 @@ export default function Home() {
               <div className="absolute left-[10px] right-[10px] top-[170px] h-px bg-gradient-to-r from-transparent via-[#2d4a2d]/10 to-transparent" />
             </div>
           </div>
-          
-          <div className="absolute top-[25%] left-1/2 -translate-x-1/2 flex gap-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="w-1 h-48 bg-gradient-to-b from-white/5 to-transparent" />
-            ))}
-          </div>
-          
-          <div className="absolute top-[5%] left-1/2 -translate-x-1/2 w-[400px] h-[80px] bg-amber-200/10 rounded-full blur-3xl" />
-          <div className="absolute top-[5%] left-[25%] w-[200px] h-[60px] bg-amber-200/8 rounded-full blur-2xl" />
-          <div className="absolute top-[5%] right-[25%] w-[200px] h-[60px] bg-amber-200/8 rounded-full blur-2xl" />
-          
-          <div className="absolute bottom-[30%] left-8 w-px h-48 bg-gradient-to-b from-[#32cd32] to-transparent opacity-30" />
-          <div className="absolute bottom-[30%] right-8 w-px h-48 bg-gradient-to-b from-[#32cd32] to-transparent opacity-30" />
-          
-          <div className="absolute bottom-[32%] left-1/2 -translate-x-1/2 w-8 h-8 bg-[#32cd32] rounded-full shadow-[0_0_20px_rgba(50,205,50,0.6)]" />
-          <div className="absolute bottom-[32%] left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-[#32cd32]/40 to-transparent" />
-          
-          <div className="absolute bottom-[32%] left-1/2 -translate-x-1/2 w-[2px] h-[300px] bg-gradient-to-b from-[#32cd32]/30 to-transparent" />
-          
-          <div className="absolute bottom-0 left-0 right-0 h-[380px]">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1408_0%,#0d1f0d_30%,#145214_70%,#1a5c1a_100%)" />
-            <div className="absolute inset-0 opacity-40" 
-              style={{
-                backgroundImage: `
-                  repeating-linear-gradient(90deg, transparent 0px, rgba(34,139,34,0.3) 1px, transparent 2px),
-                  repeating-linear-gradient(0deg, transparent 0px, rgba(34,139,34,0.2) 1px, transparent 2px)
-                `,
-                backgroundSize: '3px 100%, 100% 3px',
-              }}
-            />
-            <div className="absolute inset-0" 
-              style={{
-                backgroundImage: `
-                  radial-gradient(ellipse at 20% 80%, rgba(34,139,34,0.4) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 60%, rgba(50,205,50,0.3) 0%, transparent 40%),
-                  radial-gradient(ellipse at 50% 90%, rgba(20,82,20,0.5) 0%, transparent 60%)
-                `,
-              }}
-            />
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0a1408]" />
-          </div>
         </div>
         <div className="relative mx-auto max-w-5xl px-5 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#4ade80]">
-              FC Tournament Platform
+<div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4ade80] drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]">
+              Tournament Platform
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl text-white drop-shadow-lg">
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">
               Host and manage your own FC tournaments.
             </h1>
-            <p className="mt-6 text-lg leading-7 text-[#a3d9a5]">
+            <p className="mt-6 text-lg leading-7 text-white/80 drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
               Create your tournament page, manage signups, run brackets, and keep
               your community updated — all in one place.
             </p>
