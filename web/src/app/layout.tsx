@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BracketHub | Tournament Community Platform",
+  title: "ProtoLabs | FC Tournament Platform",
   description:
-    "Infrastructure for community-run esports tournaments, with registration, schedules, brackets, rankings, and rewards in one place.",
+    "Host and manage FC tournaments. Create tournament pages, manage signups, run brackets, and keep your community updated.",
 };
 
 export default function RootLayout({
