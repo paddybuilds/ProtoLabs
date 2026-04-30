@@ -32,3 +32,38 @@ html {
   background: #67e8f9;
   color: #020617;
 }
+
+@keyframes championScroll {
+  0%, 12.5% { transform: translateY(0); }
+  12.5%, 25% { transform: translateY(-100%); }
+  25%, 37.5% { transform: translateY(-200%); }
+  37.5%, 50% { transform: translateY(-300%); }
+  50%, 62.5% { transform: translateY(-400%); }
+  62.5%, 75% { transform: translateY(-500%); }
+  75%, 87.5% { transform: translateY(-600%); }
+  87.5%, 100% { transform: translateY(-700%); }
+}
+
+@keyframes championRotate {
+  0%, 12.5% { transform: translateX(0); }
+  12.5001%, 25% { transform: translateX(-100%); }
+  25.0001%, 37.5% { transform: translateX(-200%); }
+  37.5001%, 50% { transform: translateX(-300%); }
+  50.0001%, 62.5% { transform: translateX(-400%); }
+  62.5001%, 75% { transform: translateX(-500%); }
+  75.0001%, 87.5% { transform: translateX(-600%); }
+  87.5001%, 100% { transform: translateX(-700%); }
+}
+
+@keyframes golfSwing {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(150px) translateY(-20px); }
+  50% { transform: translateX(300px) translateY(0); }
+  75% { transform: translateX(150px) translateY(-15px); }
+}
+
+@keyframes golfBall {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(360px); }
+  100% { transform: translateX(0); }
+}

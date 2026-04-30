@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Elo Labs | FC Tournament Platform",
   description:
-    "Host and manage FC tournaments. Create tournament pages, manage signups, run brackets, and keep your community updated.",
+    "Host and manage tournaments. Create tournament pages, manage signups, run brackets, and keep your community updated.",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
 export default function RootLayout({
