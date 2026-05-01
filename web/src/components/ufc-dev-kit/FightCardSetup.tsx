@@ -185,7 +185,11 @@ export function FightCardSetup({ state, onStateChange }: Props) {
                     <label className="text-[10px] uppercase tracking-wider text-white/40">Start Time</label>
                     <input
                       type="time"
-                      value="22:00"
+                      value={card.date ? card.date.split("T")[1]?.slice(0, 5) || "22:00" : "22:00"}
+                      onChange={(e) => {
+                        const datePart = card.date.split("T")[0] || "2026-07-12";
+                        updateCard(card.id, { date: `${datePart}T${e.target.value}:00Z` });
+                      }}
                       className="bg-[#0e0e10] border border-white/10 rounded px-2 py-1.5 text-xs text-white focus:border-[#fbbf24]/50 focus:outline-none"
                     />
                   </div>

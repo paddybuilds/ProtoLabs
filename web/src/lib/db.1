@@ -1,0 +1,30 @@
+import { PrismaClient } from "../generated/prisma";
+import { PrismaPg } from "@prisma/adapter-pg";
+function getDatasourceUrl(): string | undefined {
+  const raw = process.env.DATABASE_URL ?? "";
+  if (raw.startsWith("prisma+postgres://")) {
+    try {
+      const url = new URL(raw);
+      const apiKey = url.searchParams.get("api_key") ?? "";
+      const innerUrl = Buffer.from(apiKey, "base64").toString("utf-8");
+      const innerParsed = JSON.parse(innerUrl) as { databaseUrl: string };
+      return innerParsed.databaseUrl
+        .replace("postgres://", "postgresql://")
+        .replace(/\/$/, "/default");
+    } catch {
+      return undefined;
+    }
+  }
+  if (raw) return raw;
+  return undefined;
+}
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    adapter: new PrismaPg({ connectionString: getDatasourceUrl() ?? process.env.DATABASE_URL }),
+    log: ["error"],
+  });
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}

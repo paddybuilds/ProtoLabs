@@ -12,6 +12,7 @@ import { AdminLeagueBuilder } from "@/components/dev-kit/AdminLeagueBuilder";
 import { AdminDashboard } from "@/components/dev-kit/AdminDashboard";
 import { ManagerView } from "@/components/dev-kit/ManagerView";
 import { PlayerTable } from "@/components/dev-kit/PlayerTable";
+import { MobileNav } from "@/components/MobileNav";
 import { initialDevKitState } from "@/lib/dev-kit/mock-data";
 import { DevKitState } from "@/lib/dev-kit/types";
 
@@ -91,6 +92,16 @@ export default function FC26() {
           </Link>
 
           <div className="flex items-center gap-2">
+            <MobileNav
+              sportLinks={[
+                { href: "/f1", label: "F1" },
+                { href: "/ufc", label: "UFC" },
+                { href: "/fc26", label: "FC26", isActive: true },
+                { href: "/nba-2k", label: "NBA 2K" },
+                { href: "/pga", label: "PGA" },
+              ]}
+              accentColor="#4ade80"
+            />
             <a
               href="#"
               className="relative flex h-9 sm:h-10 items-center gap-2 rounded-md bg-gradient-to-b from-[#2d5a2d] to-[#1e4a1e] px-3 sm:px-4 text-xs sm:text-sm font-semibold text-white border border-[#3d7a3d] transition hover:from-[#3d7a3d] hover:to-[#2d5a2d] overflow-hidden group"
@@ -120,7 +131,7 @@ export default function FC26() {
           </div>
           <div className="absolute inset-0 hero-corner-glow pointer-events-none" />
           <div className="relative flex items-center justify-center min-h-full px-4">
-            <div className="absolute left-1/2 -translate-x-1/2 -top-3 sm:-top-6 flex items-center gap-2 sm:gap-4 lg:gap-6 opacity-70 whitespace-nowrap overflow-x-auto px-2">
+            <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 -top-3 sm:-top-6 items-center gap-2 sm:gap-4 lg:gap-6 opacity-70 whitespace-nowrap overflow-x-auto px-2">
               <a href="/f1" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">F1</a>
               <span className="text-white/50 text-xs sm:text-sm">|</span>
               <a href="/ufc" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">UFC</a>

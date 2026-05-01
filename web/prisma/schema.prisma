@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum InviteType {
+  COMMUNITY_JOIN
+  TEAM_INVITE
+}
+
+enum MemberStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  discordId    String?  @unique
+  role         String   @default("PLAYER")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  communities               Community[]
+  gameAccessGames       TournamentOrganizerGame[] @relation("GameAccess")
+  grantedGames      TournamentOrganizerGame[] @relation("Granter")
+  roleAssignments         CommunityRole[]
+  teamAreas               TeamArea[]
+  inviteLinks             InviteLink[]
+  teamMembers            TeamMember[]
+  activityLogs           ActivityLog[]
+
+  @@map("users")
+}
+
+model Game {
+  id           String @id @default(cuid())
+  slug         String @unique
+  name         String
+  accentColor  String
+
+  communities              Community[]
+  tournamentOrganizerGames TournamentOrganizerGame[]
+
+  @@map("games")
+}
+
+model Community {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  logo        String?
+  banner      String?
+  description String?
+  accentColor String   @default("#a855f7")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  gameId          String
+  game           Game   @relation(fields: [gameId], references: [id])
+  createdByUserId String
+  createdBy      User  @relation(fields: [createdByUserId], references: [id])
+
+  roles      CommunityRole[]
+  teamAreas  TeamArea[]
+  inviteLinks InviteLink[]
+
+  @@map("communities")
+}
+
+model TournamentOrganizerGame {
+  id        String   @id @default(cuid())
+  grantedAt DateTime @default(now())
+
+  userId      String
+  user       User   @relation("GameAccess", fields: [userId], references: [id])
+  gameId     String
+  game      Game   @relation(fields: [gameId], references: [id])
+  grantedByUserId String?
+  grantedBy      User?  @relation("Granter", fields: [grantedByUserId], references: [id])
+
+  @@unique([userId, gameId])
+  @@map("tournament_organizer_games")
+}
+
+model CommunityRole {
+  id        String   @id @default(cuid())
+  role      String
+  createdAt DateTime @default(now())
+
+  userId       String
+  user        User       @relation(fields: [userId], references: [id])
+  communityId String?
+  community   Community? @relation(fields: [communityId], references: [id])
+
+  @@unique([userId, communityId])
+  @@map("community_roles")
+}
+
+model TeamArea {
+  id          String   @id @default(cuid())
+  name        String
+  banner      String?
+  logo        String?
+  title       String?
+  description String?
+  applyOpen   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  communityId    String
+  community     Community @relation(fields: [communityId], references: [id])
+  teamManagerId String
+  teamManager   User      @relation(fields: [teamManagerId], references: [id])
+
+  inviteLinks InviteLink[]
+  members    TeamMember[]
+
+  @@map("team_areas")
+}
+
+model InviteLink {
+  id        String      @id @default(cuid())
+  code      String      @unique
+  type      InviteType
+  expiresAt DateTime?
+  createdAt DateTime   @default(now())
+
+  communityId    String
+  community     Community  @relation(fields: [communityId], references: [id])
+  teamAreaId    String?
+  teamArea     TeamArea?   @relation(fields: [teamAreaId], references: [id])
+  createdByUserId String
+  createdBy     User       @relation(fields: [createdByUserId], references: [id])
+
+  @@map("invite_links")
+}
+
+model TeamMember {
+  id       String       @id @default(cuid())
+  status   MemberStatus @default(PENDING)
+  joinedAt DateTime    @default(now())
+
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  teamAreaId String
+  teamArea  TeamArea @relation(fields: [teamAreaId], references: [id])
+
+  @@unique([userId, teamAreaId])
+  @@map("team_members")
+}
+
+model ActivityLog {
+  id       String   @id @default(cuid())
+  action   String
+  details  String?
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
