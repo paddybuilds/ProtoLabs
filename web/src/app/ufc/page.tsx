@@ -1,4 +1,41 @@
+"use client";
+
 import { ArrowRight, Globe, Shield, Trophy, Users } from "lucide-react";
+import { useState } from "react";
+import { FightCardSetup, FighterRankings, WeightClasses, FighterProfile, UFCDevKitModal, UFCDevKitButton } from "@/components/ufc-dev-kit";
+import { initialUFCDevKitState } from "@/lib/ufc-dev-kit/mock-data";
+import type { UFCDevKitState } from "@/lib/ufc-dev-kit/types";
+
+<style>{`
+  .ufc-hero-glow::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(ellipse at top left, rgba(251,191,36,0.5) 0%, rgba(251,191,36,0.2) 40%, transparent 70%);
+    filter: blur(50px);
+    transform: rotate(-20deg);
+    pointer-events: none;
+  }
+  .ufc-hero-glow::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(ellipse at top right, rgba(251,191,36,0.5) 0%, rgba(251,191,36,0.2) 40%, transparent 70%);
+    filter: blur(50px);
+    transform: rotate(20deg);
+    pointer-events: none;
+  }
+  .ufc-scrollbar::-webkit-scrollbar { width: 5px; }
+  .ufc-scrollbar::-webkit-scrollbar-track { background: rgba(26, 21, 5, 0.3); border-radius: 3px; }
+  .ufc-scrollbar::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.35); border-radius: 3px; }
+  .ufc-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(251, 191, 36, 0.6); }
+`}</style>
 
 const hostFeatures = [
   { title: "Build your fight camp", copy: "Create a custom tournament page for your fighting community with events and rankings." },
@@ -18,6 +55,11 @@ function LogoMark() {
 }
 
 export default function UFCPage() {
+  const [showDevKit, setShowDevKit] = useState(false);
+  const [devKitState, setDevKitState] = useState<UFCDevKitState>(initialUFCDevKitState);
+  const handleDevKitStateChange = (updates: Partial<UFCDevKitState>) => {
+    setDevKitState((prev) => ({ ...prev, ...updates }));
+  };
   return (
     <main className="min-h-screen bg-[#0e0e10] text-[#efeff1]">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -43,107 +85,21 @@ export default function UFCPage() {
 
       <section className="relative overflow-hidden bg-[#0e0e10] pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24 min-h-[calc(100vh+50px)] sm:min-h-screen">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,#0e0e10_0%,#1a1505_40%,#100d03_100%)]" />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url('/Octogon.png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              backgroundAttachment: 'local',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e10]/80 via-[#0e0e10]/40 to-transparent ufc-hero-glow" />
           
-          <div className="absolute top-0 left-[10%] w-24 sm:w-[180px] h-24 sm:h-[180px] rounded-full bg-amber-500/20 blur-3xl" />
-          <div className="absolute top-0 right-[10%] w-24 sm:w-[180px] h-24 sm:h-[180px] rounded-full bg-amber-500/20 blur-3xl" />
-          
-          <div className="absolute inset-0" style={{
-            backgroundImage: `
-              radial-gradient(ellipse 80% 50% at 50% 0%, rgba(251,191,36,0.12) 0%, transparent 60%),
-              radial-gradient(ellipse 50% 30% at 20% 30%, rgba(251,191,36,0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 50% 30% at 80% 30%, rgba(251,191,36,0.08) 0%, transparent 50%)
-            `
-          }} />
-          
-          <div className="absolute bottom-[3%] sm:bottom-[4%] left-0 right-0 h-64 sm:h-96 flex items-end justify-center">
-            <div className="relative w-[80%] sm:w-[60%] max-w-xl aspect-square">
-              <svg className="w-full h-full" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.15"/>
-                    <stop offset="100%" stopColor="#fbbf24" stopOpacity="0"/>
-                  </radialGradient>
-                  <linearGradient id="glassCanvas" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#6b6b6b" stopOpacity="0.9"/>
-                    <stop offset="30%" stopColor="#4a4a4a" stopOpacity="0.85"/>
-                    <stop offset="70%" stopColor="#3a3a3a" stopOpacity="0.8"/>
-                    <stop offset="100%" stopColor="#2a2a2a" stopOpacity="0.75"/>
-                  </linearGradient>
-                  <linearGradient id="glassFence" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3a3a3a" stopOpacity="0.6"/>
-                    <stop offset="50%" stopColor="#1a1a1a" stopOpacity="0.4"/>
-                    <stop offset="100%" stopColor="#0a0a0a" stopOpacity="0.3"/>
-                  </linearGradient>
-                  <linearGradient id="glassHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="white" stopOpacity="0"/>
-                    <stop offset="50%" stopColor="white" stopOpacity="0.15"/>
-                    <stop offset="100%" stopColor="white" stopOpacity="0"/>
-                  </linearGradient>
-                </defs>
-                <polygon points="200,10 370,72 370,328 200,390 30,328 30,72" fill="url(#glassCanvas)" stroke="#555" strokeWidth="1"/>
-                <polygon points="200,30 340,82 340,318 200,370 60,318 60,82" fill="none" stroke="#fbbf24" strokeWidth="0.5" opacity="0.4"/>
-                <polygon points="200,35 330,85 330,315 200,365 70,315 70,85" fill="url(#glassHighlight)" opacity="0.3"/>
-                <g>
-                  <polygon points="200,30 340,82 340,318 200,370 60,318 60,82" fill="none" stroke="#222" strokeWidth="10" stroke-linejoin="round"/>
-                  <polygon points="200,30 340,82 340,318 200,370 60,318 60,82" fill="url(#glassFence)" stroke="#333" strokeWidth="1"/>
-                </g>
-                <g transform="translate(200, 200)">
-                  <circle cx="0" cy="0" r="50" fill="url(#centerGlow)"/>
-                  <text x="0" y="8" textAnchor="middle" fill="#fbbf24" fontSize="28" fontWeight="bold" fontFamily="sans-serif">UFC</text>
-                </g>
-                <g transform="translate(200, 75)">
-                  <text x="0" y="-5" textAnchor="middle" fill="#fbbf24" fontSize="7" fontWeight="bold" fontFamily="sans-serif" letterSpacing="0.5">CURRENT CHAMPIONS</text>
-                  <foreignObject x="-80" y="0" width="160" height="40">
-                    <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
-                      <div className="flex animate-[championRotate_40s_linear_infinite]">
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Jon Jones</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Heavyweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Alex Pereira</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Light Heavyweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Dricus du Plessis</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Middleweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Belal Muhammad</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Welterweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Islam Makhachev</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Lightweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Alexander Volkanovski</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Featherweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Sean O'Malley</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Bantamweight</span>
-                        </div>
-                        <div className="flex-shrink-0 w-full text-center">
-                          <span className="text-xs sm:text-sm font-bold text-white">Brandon Moreno</span>
-                          <span className="block text-[10px] sm:text-xs text-[#fbbf24]">Flyweight</span>
-                        </div>
-                      </div>
-                    </div>
-                  </foreignObject>
-                </g>
-                <polygon points="200,35 330,85 330,315 200,365 70,315 70,85" fill="none" stroke="#fbbf24" strokeWidth="2" opacity="0.8"/>
-                
-              </svg>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e10] via-transparent to-transparent" />
-          </div>
-          
-          <div className="absolute bottom-[16%] sm:bottom-[18%] left-1/2 -translate-x-1/2 flex gap-3 sm:gap-5 md:gap-8 px-4">
-            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/30 shadow-[0_0_25px_rgba(251,191,36,0.12)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Fights</div></div>
-            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/30 shadow-[0_0_25px_rgba(251,191,36,0.12)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Fighters</div></div>
-            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/30 shadow-[0_0_25px_rgba(251,191,36,0.12)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Events</div></div>
+          <div className="absolute bottom-[22%] sm:bottom-[24%] left-1/2 -translate-x-1/2 flex gap-3 sm:gap-5 md:gap-8 px-4">
+            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/30 border border-[#fbbf24]/50 shadow-[0_0_25px_rgba(251,191,36,0.2)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Fights</div></div>
+            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/30 border border-[#fbbf24]/50 shadow-[0_0_25px_rgba(251,191,36,0.2)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Fighters</div></div>
+            <div className="text-center px-4 sm:px-6 py-2 rounded-lg bg-[#fbbf24]/30 border border-[#fbbf24]/50 shadow-[0_0_25px_rgba(251,191,36,0.2)]"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#fbbf24]">0</div><div className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider">Events</div></div>
           </div>
           
           <div className="absolute inset-x-0 top-[5%] sm:top-[8%] lg:top-[10%] flex justify-center">
@@ -159,15 +115,68 @@ export default function UFCPage() {
                 <span className="text-white/30 text-sm">|</span>
                 <a href="/pga" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-white/50 hover:text-white transition-colors">PGA</a>
               </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">UFC Fighting Tournaments</h1>
-              <p className="mt-2 sm:mt-3 text-sm sm:text-base text-white/70 max-w-md mx-auto">Compete in UFC tournaments. Track your wins, climb the rankings, and become the champion.</p>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)]">UFC Fighting Tournaments</h1>
+              <p className="mt-2 sm:mt-3 text-sm sm:text-base text-white/80 drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)] max-w-md mx-auto">Compete in UFC tournaments. Track your wins, climb the rankings, and become the champion.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative bg-[#1a1505] py-16 sm:py-20 lg:py-28">
-        <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(rgba(251,191,36,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(251,191,36,0.05) 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+      {/* Dev Kit Preview Section - Desktop: 4 panels, Mobile: button */}
+      <section className="relative bg-[#0e0e10] py-8 lg:py-12 overflow-hidden">
+        <div className="mx-auto max-w-[1400px] px-4">
+          <div className="hidden lg:block mb-4">
+            <div className="flex items-center gap-2 text-[#fbbf24] text-xs font-semibold uppercase tracking-widest">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+              Dev Kit Preview
+            </div>
+          </div>
+          <div className="hidden lg:grid lg:grid-cols-4 gap-4">
+            <div className="bg-[#1a1505] border border-white/10 rounded-lg p-4 overflow-y-auto ufc-scrollbar">
+              <FightCardSetup state={devKitState} onStateChange={handleDevKitStateChange} />
+            </div>
+            <div className="bg-[#1a1505] border border-white/10 rounded-lg p-4 overflow-y-auto ufc-scrollbar">
+              <FighterRankings state={devKitState} />
+            </div>
+            <div className="bg-[#1a1505] border border-white/10 rounded-lg p-4 overflow-y-auto ufc-scrollbar">
+              <WeightClasses state={devKitState} />
+            </div>
+            <div className="bg-[#1a1505] border border-white/10 rounded-lg p-4 overflow-y-auto ufc-scrollbar">
+              <FighterProfile state={devKitState} onStateChange={handleDevKitStateChange} />
+            </div>
+          </div>
+
+          <div className="lg:hidden text-center">
+            <button
+              onClick={() => setShowDevKit(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[#fbbf24]/10 border border-[#fbbf24]/30 text-[#fbbf24] font-medium text-base hover:bg-[#fbbf24]/20 transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              Preview Dev Kit
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <UFCDevKitModal isOpen={showDevKit} onClose={() => setShowDevKit(false)} />
+
+      <section className="relative bg-[#1a1505] py-16 sm:py-20 lg:py-28 overflow-hidden">
+        <div className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url('/ufcgym.png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              backgroundAttachment: 'local',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1505] via-[#1a1505]/80 to-[#1a1505]/60" />
+        </div>
         <div className="relative mx-auto max-w-5xl px-4 sm:px-5 lg:px-8">
           <div className="flex items-center gap-3 mb-6 sm:mb-8"><div className="w-8 sm:w-12 h-[3px] bg-[#fbbf24]" /><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white">Run your own events</h2></div>
           <div className="mt-8 sm:mt-12 grid gap-6 sm:grid-cols-2">{hostFeatures.map((f) => <div key={f.title} className="relative bg-[#251a08] border border-white/5 p-5 sm:p-6 rounded-lg hover:bg-[#2d1f08] transition-colors"><div className="mb-3 sm:mb-4 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/20"><Trophy size={18} className="sm:w-[22px] sm:h-[22px] text-[#fbbf24]" /></div><h3 className="text-sm sm:text-base font-semibold text-white">{f.title}</h3><p className="mt-2 text-sm text-[#8ba892]">{f.copy}</p></div>)}</div>
@@ -188,9 +197,11 @@ export default function UFCPage() {
 
       <section className="relative bg-[#1a1505] py-16 sm:py-20 lg:px-8">
         <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(rgba(251,191,36,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(251,191,36,0.03) 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />
-        <div className="relative mx-auto max-w-5xl gap-6 sm:gap-8 border border-[#fbbf24]/20 bg-[#201a05] p-6 sm:p-8 text-white lg:grid-cols-[1fr_auto] lg:flex shadow-[0_0_40px_rgba(251,191,36,0.1)]">
-          <div><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">Start fight night</h2><p className="mt-2 sm:mt-3 text-sm sm:text-base text-[#adadb8]">Set up your fight event and start signing up fighters.</p></div>
-          <div className="mt-4 sm:mt-6 flex flex-col gap-3 lg:mt-0 lg:flex-row"><a href="#" className="flex h-10 sm:h-12 items-center justify-center gap-2 rounded-md bg-[#efeff1] px-5 sm:px-6 text-sm font-semibold text-[#0e0e10]">Get started<ArrowRight size={16} className="sm:w-[17px] sm:h-[17px]" /></a></div>
+        <div className="relative mx-auto max-w-5xl border border-[#fbbf24]/20 bg-[#201a05] p-6 sm:p-8 text-white shadow-[0_0_40px_rgba(251,191,36,0.1)]">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">Start fight night</h2><p className="mt-2 sm:mt-3 text-sm sm:text-base text-[#adadb8]">Set up your fight event and start signing up fighters.</p></div>
+            <a href="#" className="flex h-10 sm:h-12 items-center justify-center gap-2 rounded-md bg-[#efeff1] px-5 sm:px-6 text-sm font-semibold text-[#0e0e10] shrink-0 self-end sm:self-start">Get started<ArrowRight size={16} className="sm:w-[17px] sm:h-[17px]" /></a>
+          </div>
         </div>
       </section>
     </main>

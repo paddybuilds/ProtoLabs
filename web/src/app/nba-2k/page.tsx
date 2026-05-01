@@ -127,9 +127,11 @@ export default function NBA2KPage() {
 
       <section className="relative bg-[#1a1208] py-16 sm:py-20 lg:px-8">
         <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />
-        <div className="relative mx-auto max-w-5xl gap-6 sm:gap-8 border border-[#f97316]/20 bg-[#201510] p-6 sm:p-8 text-white lg:grid-cols-[1fr_auto] lg:flex shadow-[0_0_40px_rgba(249,115,22,0.1)]">
-          <div><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">Start your season</h2><p className="mt-2 sm:mt-3 text-sm sm:text-base text-[#adadb8]">Set up your basketball league and invite players.</p></div>
-          <div className="mt-4 sm:mt-6 flex flex-col gap-3 lg:mt-0 lg:flex-row"><a href="#" className="flex h-10 sm:h-12 items-center justify-center gap-2 rounded-md bg-[#efeff1] px-5 sm:px-6 text-sm font-semibold text-[#0e0e10]">Get started<ArrowRight size={16} className="sm:w-[17px] sm:h-[17px]" /></a></div>
+        <div className="relative mx-auto max-w-5xl border border-[#f97316]/20 bg-[#201510] p-6 sm:p-8 text-white shadow-[0_0_40px_rgba(249,115,22,0.1)]">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold">Start your season</h2><p className="mt-2 sm:mt-3 text-sm sm:text-base text-[#adadb8]">Set up your basketball league and invite players.</p></div>
+            <a href="#" className="flex h-10 sm:h-12 items-center justify-center gap-2 rounded-md bg-[#efeff1] px-5 sm:px-6 text-sm font-semibold text-[#0e0e10] shrink-0 self-end sm:self-start">Get started<ArrowRight size={16} className="sm:w-[17px] sm:h-[17px]" /></a>
+          </div>
         </div>
       </section>
     </main>
