@@ -67,3 +67,92 @@ html {
   50% { transform: translateX(360px); }
   100% { transform: translateX(0); }
 }
+
+/* ===== Accessibility overrides ===== */
+
+/* Skip navigation link */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: #a855f7;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0 0 0.5rem 0.5rem;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-nav:focus {
+  top: 0;
+}
+
+/* High contrast mode */
+.a11y-high-contrast {
+  --a11y-text-opacity: 1;
+  --a11y-border-opacity: 0.5;
+}
+.a11y-high-contrast .text-white\/30 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.a11y-high-contrast .text-white\/40 {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+.a11y-high-contrast .text-white\/50 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.a11y-high-contrast .text-white\/60 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.a11y-high-contrast .text-white\/70 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.a11y-high-contrast .border-white\/5 {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+.a11y-high-contrast .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+.a11y-high-contrast .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+.a11y-high-contrast .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+.a11y-high-contrast .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Reduced motion */
+.a11y-reduced-motion *,
+.a11y-reduced-motion *::before,
+.a11y-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Larger tap targets */
+.a11y-larger-targets a,
+.a11y-larger-targets button,
+.a11y-larger-targets [role="button"],
+.a11y-larger-targets [role="switch"],
+.a11y-larger-targets input,
+.a11y-larger-targets select {
+  min-height: 44px !important;
+  min-width: 44px !important;
+}
+
+/* Visible focus rings */
+.a11y-focus-visible :focus-visible {
+  outline: 3px solid #a855f7 !important;
+  outline-offset: 2px !important;
+}
+
+/* Accessibility trigger button hover effect */
+.a11y-trigger:hover {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}

@@ -39,21 +39,18 @@ const mockRankingSettings: RankingSettings = {
 };
 
 const mockFighterStandings: FighterStanding[] = [
-  { position: 1, fighterId: 'fighter-1', fighterName: 'Alexander Volkanovski', weightClass: 'Featherweight', record: '26-1-0', points: 450 },
-  { position: 2, fighterId: 'fighter-3', fighterName: 'Sean O\'Malley', weightClass: 'Bantamweight', record: '20-1-0', points: 380 },
-  { position: 3, fighterId: 'fighter-6', fighterName: 'Leon Edwards', weightClass: 'Welterweight', record: '22-3-0', points: 320 },
-  { position: 4, fighterId: 'fighter-2', fighterName: 'Islam Makhachev', weightClass: 'Lightweight', record: '26-0-0', points: 500 },
+  { position: 1, fighterId: 'jdm', fighterName: 'Jack Della Maddalena', weightClass: 'Welterweight', record: '18-2-0', points: 480 },
+  { position: 2, fighterId: 'edwards', fighterName: 'Leon Edwards', weightClass: 'Welterweight', record: '22-4-0', points: 450 },
+  { position: 3, fighterId: 'makhachev', fighterName: 'Islam Makhachev', weightClass: 'Lightweight', record: '27-1-0', points: 500 },
+  { position: 4, fighterId: 'pereira', fighterName: 'Alex Pereira', weightClass: 'Light Heavyweight', record: '12-2-0', points: 420 },
 ];
 
 const mockWeightClasses: WeightClassStanding[] = [
-  { class: 'Heavyweight', limit: 265, champion: 'Jon Jones', topFighters: 15 },
-  { class: 'Light Heavyweight', limit: 205, champion: null, topFighters: 15 },
+  { class: 'Heavyweight', limit: 265, champion: null, topFighters: 15 },
+  { class: 'Light Heavyweight', limit: 205, champion: 'Alex Pereira', topFighters: 15 },
   { class: 'Middleweight', limit: 185, champion: null, topFighters: 15 },
-  { class: 'Welterweight', limit: 170, champion: 'Leon Edwards', topFighters: 15 },
+  { class: 'Welterweight', limit: 170, champion: 'Jack Della Maddalena', topFighters: 15 },
   { class: 'Lightweight', limit: 155, champion: 'Islam Makhachev', topFighters: 15 },
-  { class: 'Featherweight', limit: 145, champion: 'Alexander Volkanovski', topFighters: 15 },
-  { class: 'Bantamweight', limit: 135, champion: 'Sean O\'Malley', topFighters: 15 },
-  { class: 'Flyweight', limit: 125, champion: 'Brandon Moreno', topFighters: 15 },
 ];
 
 const mockContracts: Contract[] = [

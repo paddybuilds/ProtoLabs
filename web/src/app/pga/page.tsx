@@ -23,7 +23,7 @@ export default function PGAPage() {
   return (
     <main className="min-h-screen bg-[#0e0e10] text-[#efeff1]">
       <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="mx-auto flex h-16 sm:h-20 max-w-5xl items-center justify-between px-4 sm:px-5 lg:px-8">
+        <nav className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-5 lg:px-8">
           <Link href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Elo Labs home">
             <LogoMark />
             <div className="flex flex-col">
@@ -31,6 +31,17 @@ export default function PGAPage() {
               <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#10b981] drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse">Tournament Platform</span>
             </div>
           </Link>
+          <div className="hidden sm:flex items-center gap-2">
+            <a href="/f1" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">F1</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/ufc" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">UFC</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/fc26" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">FC26</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/nba-2k" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">NBA 2K</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/pga" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-[#10b981]">PGA</a>
+          </div>
           <div className="flex items-center gap-2">
             <MobileNav
               sportLinks={[
@@ -105,17 +116,6 @@ export default function PGAPage() {
           
           <div className="absolute inset-x-0 top-[8%] sm:top-[12%] lg:top-[14%] flex justify-center">
             <div className="text-center px-4">
-              <div className="hidden sm:flex items-center justify-center gap-2 sm:gap-4 mb-3">
-                <a href="/f1" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-white/50 hover:text-white transition-colors">F1</a>
-                <span className="text-white/30 text-sm">|</span>
-                <a href="/ufc" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-white/50 hover:text-white transition-colors">UFC</a>
-                <span className="text-white/30 text-sm">|</span>
-                <a href="/fc26" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-white/50 hover:text-white transition-colors">FC26</a>
-                <span className="text-white/30 text-sm">|</span>
-                <a href="/nba-2k" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-white/50 hover:text-white transition-colors">NBA 2K</a>
-                <span className="text-white/30 text-sm">|</span>
-                <a href="/pga" className="px-3 sm:px-4 py-1.5 rounded text-lg sm:text-xl md:text-2xl font-extrabold tracking-widest text-[#10b981]">PGA</a>
-              </div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">PGA Golf Tournaments</h1>
               <p className="mt-2 sm:mt-3 text-sm sm:text-base text-white/70 max-w-md mx-auto">Compete in PGA golf tournaments. Track your scores, climb the leaderboards, and become a pro.</p>
             </div>

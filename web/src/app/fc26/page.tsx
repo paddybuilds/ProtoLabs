@@ -82,14 +82,28 @@ export default function FC26() {
       `}</style>
       <main className="min-h-screen bg-[#0e0e10] text-[#efeff1]">
       <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="mx-auto flex h-16 sm:h-20 max-w-5xl items-center justify-between px-4 sm:px-5 lg:px-8">
+        <nav className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-5 lg:px-8">
           <Link href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Elo Labs home">
-            <LogoMark />
-            <div className="flex flex-col">
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">Elo Labs</span>
-              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#4ade80] drop-shadow-[0_0_10px_rgba(74,222,128,0.5)] animate-pulse">Tournament Platform</span>
+            <div className="flex items-center gap-1.5 sm:gap-2 bg-[#0a150a] border border-[#4ade80]/30 rounded-md px-2 py-1">
+              <LogoMark />
+              <div className="flex flex-col">
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">Elo Labs</span>
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#4ade80] animate-pulse">Tournament Platform</span>
+              </div>
             </div>
           </Link>
+
+          <div className="hidden sm:flex items-center gap-2">
+            <a href="/f1" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">F1</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/ufc" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">UFC</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/fc26" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-[#4ade80]">FC26</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/nba-2k" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">NBA 2K</a>
+            <span className="text-white/20 text-xs">|</span>
+            <a href="/pga" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">PGA</a>
+          </div>
 
           <div className="flex items-center gap-2">
             <MobileNav
@@ -121,7 +135,7 @@ export default function FC26() {
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: `url('/fieldbg.png')`,
+                backgroundImage: `url('/FC26/fieldbg.png')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
                 backgroundAttachment: 'local',
@@ -131,17 +145,6 @@ export default function FC26() {
           </div>
           <div className="absolute inset-0 hero-corner-glow pointer-events-none" />
           <div className="relative flex items-center justify-center min-h-full px-4">
-            <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 -top-3 sm:-top-6 items-center gap-2 sm:gap-4 lg:gap-6 opacity-70 whitespace-nowrap overflow-x-auto px-2">
-              <a href="/f1" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">F1</a>
-              <span className="text-white/50 text-xs sm:text-sm">|</span>
-              <a href="/ufc" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">UFC</a>
-              <span className="text-white/50 text-xs sm:text-sm">|</span>
-              <a href="/fc26" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">FC26</a>
-              <span className="text-white/50 text-xs sm:text-sm">|</span>
-              <a href="/nba-2k" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">NBA 2K</a>
-              <span className="text-white/50 text-xs sm:text-sm">|</span>
-              <a href="/pga" className="px-2 sm:px-3 py-1 rounded text-sm sm:text-lg lg:text-xl font-extrabold tracking-widest text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)] hover:bg-[#4ade80]/30 hover:shadow-[0_0_20px_rgba(74,222,128,0.5)] transition-all duration-300">PGA</a>
-            </div>
             <div className="flex flex-col items-center justify-center mt-16 sm:mt-24 lg:mt-32">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.8)] text-center">
                 FC Tournaments
@@ -172,8 +175,10 @@ export default function FC26() {
         </section>
 
         {/* Dev Kit Preview Section - Desktop: 4 panels, Mobile: button */}
-        <section className="relative bg-[#0e0e10] py-8 lg:py-12 overflow-hidden">
-          <div className="mx-auto max-w-[1400px] px-4">
+        <section className="relative py-8 lg:py-12 overflow-hidden">
+          <div className="absolute inset-0" style={{ backgroundImage: "url('/FC26/Playerroom.png')", backgroundSize: 'cover', backgroundPosition: 'center' }} />
+          <div className="absolute inset-0 bg-[#0e0e10]/70" />
+          <div className="relative mx-auto max-w-[1400px] px-4">
             <div className="hidden lg:block mb-4">
               <div className="flex items-center gap-2 text-[#10b981] text-xs font-semibold uppercase tracking-widest">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
@@ -181,16 +186,16 @@ export default function FC26() {
               </div>
             </div>
             <div className="hidden lg:grid lg:grid-cols-4 gap-4">
-              <div className="bg-[#0a1408] border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
+              <div className="bg-[#0a1408]/80 backdrop-blur-sm border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
                 <AdminLeagueBuilder state={devKitState} onStateChange={handleDevKitStateChange} />
               </div>
-              <div className="bg-[#0a1408] border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
+              <div className="bg-[#0a1408]/80 backdrop-blur-sm border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
                 <AdminDashboard state={devKitState} onStateChange={handleDevKitStateChange} />
               </div>
-              <div className="bg-[#0a1408] border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
+              <div className="bg-[#0a1408]/80 backdrop-blur-sm border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
                 <ManagerView state={devKitState} onStateChange={handleDevKitStateChange} />
               </div>
-              <div className="bg-[#0a1408] border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
+              <div className="bg-[#0a1408]/80 backdrop-blur-sm border border-white/10 rounded-lg p-4 overflow-y-auto fc26-scrollbar">
                 <PlayerTable state={devKitState} />
               </div>
             </div>
