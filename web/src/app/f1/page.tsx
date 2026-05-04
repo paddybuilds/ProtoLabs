@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, Globe, Shield, Trophy, Users } from "lucide-react";
 import { MobileNav } from "@/components/MobileNav";
-import { F1DevKitModal } from "@/components/f1-dev-kit";
-import { SeasonSetup } from "@/components/f1-dev-kit/SeasonSetup";
-import { DriverStandings } from "@/components/f1-dev-kit/DriverStandings";
-import { ConstructorStandings } from "@/components/f1-dev-kit/ConstructorStandings";
-import { DriverManagement } from "@/components/f1-dev-kit/DriverManagement";
-import { initialF1DevKitState } from "@/lib/f1-dev-kit/mock-data";
 
-type TeamId = "ferrari" | "redbull" | "mercedes";
+type TeamId = "free" | "ferrari" | "redbull" | "mercedes" | "mclaren" | "astonmartin" | "alpine" | "williams" | "haas" | "audi" | "cadillac" | "rb";
+
+const teamOrder: TeamId[] = [
+  "free",
+  "ferrari", "redbull", "mercedes", "mclaren", "astonmartin",
+  "alpine", "williams", "haas", "audi", "cadillac", "rb"
+];
 
 const teams: Record<TeamId, {
   id: TeamId;
@@ -23,13 +23,28 @@ const teams: Record<TeamId, {
   darkBgHover: string;
   heroMid: string;
   heroEnd: string;
-  btnFrom: string;
-  btnTo: string;
-  btnBorder: string;
   carImg: string;
   carOffset: string;
-  glowClass: string;
+  carWidth: string;
+  logoImg: string;
+  premium: boolean;
 }> = {
+  free: {
+    id: "free",
+    label: "Free",
+    accent: "#a0a0b0",
+    accentLight: "#c0c0d0",
+    accentRgb: "160,160,176",
+    darkBg: "#18181b",
+    darkBgHover: "#222226",
+    heroMid: "#131315",
+    heroEnd: "#0e0e10",
+    carImg: "",
+    carOffset: "",
+    carWidth: "",
+    logoImg: "/F1/Logos/f1-logo-png-red-large-900x231.png",
+    premium: false,
+  },
   ferrari: {
     id: "ferrari",
     label: "Ferrari",
@@ -40,12 +55,11 @@ const teams: Record<TeamId, {
     darkBgHover: "#2d1f1f",
     heroMid: "#1a1515",
     heroEnd: "#0f0d0d",
-    btnFrom: "#991b1b",
-    btnTo: "#7f1d1d",
-    btnBorder: "#b91c1c",
     carImg: "/F1/red_F1.png",
-    carOffset: "translate-y-2 sm:translate-y-3",
-    glowClass: "from-red-500",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/Ferrari_logo.png",
+    premium: true,
   },
   redbull: {
     id: "redbull",
@@ -57,12 +71,11 @@ const teams: Record<TeamId, {
     darkBgHover: "#1f2838",
     heroMid: "#151a25",
     heroEnd: "#0d0f18",
-    btnFrom: "#1e3a8a",
-    btnTo: "#1e40af",
-    btnBorder: "#2563eb",
     carImg: "/F1/RedBull_F1.png",
-    carOffset: "translate-y-4 sm:translate-y-6",
-    glowClass: "from-blue-500",
+    carOffset: "translate-y-6 sm:translate-y-8",
+    carWidth: "w-56 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/red-bull-racing-logo.png",
+    premium: true,
   },
   mercedes: {
     id: "mercedes",
@@ -74,12 +87,139 @@ const teams: Record<TeamId, {
     darkBgHover: "#1f2a28",
     heroMid: "#151a1a",
     heroEnd: "#0d0f0f",
-    btnFrom: "#0d4f47",
-    btnTo: "#0a3d37",
-    btnBorder: "#00a894",
     carImg: "/F1/Mercedes_F1.png",
-    carOffset: "translate-y-4 sm:translate-y-6",
-    glowClass: "from-teal-400",
+    carOffset: "translate-y-6 sm:translate-y-8",
+    carWidth: "w-56 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/Mercedes_F1_Logo.png",
+    premium: true,
+  },
+  mclaren: {
+    id: "mclaren",
+    label: "McLaren",
+    accent: "#ff8000",
+    accentLight: "#ffb366",
+    accentRgb: "255,128,0",
+    darkBg: "#251e15",
+    darkBgHover: "#2d2419",
+    heroMid: "#1a1510",
+    heroEnd: "#0f0d0a",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/McLaren_Racing_logo.png",
+    premium: true,
+  },
+  astonmartin: {
+    id: "astonmartin",
+    label: "Aston Martin",
+    accent: "#006f62",
+    accentLight: "#4db8a4",
+    accentRgb: "0,111,98",
+    darkBg: "#151e1c",
+    darkBgHover: "#1a2624",
+    heroMid: "#101a17",
+    heroEnd: "#0a0f0e",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/aston-martin-logo-png_seeklogo-238549.png",
+    premium: true,
+  },
+  alpine: {
+    id: "alpine",
+    label: "Alpine",
+    accent: "#0090ff",
+    accentLight: "#66b8ff",
+    accentRgb: "0,144,255",
+    darkBg: "#151a28",
+    darkBgHover: "#1a2030",
+    heroMid: "#101520",
+    heroEnd: "#0a0d16",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/alpine-f1-team-logo.png",
+    premium: true,
+  },
+  williams: {
+    id: "williams",
+    label: "Williams",
+    accent: "#00a3e0",
+    accentLight: "#66ccf0",
+    accentRgb: "0,163,224",
+    darkBg: "#151c22",
+    darkBgHover: "#1a2228",
+    heroMid: "#10161c",
+    heroEnd: "#0a0e14",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/Williams_F1_logo_2026.png",
+    premium: true,
+  },
+  haas: {
+    id: "haas",
+    label: "Haas",
+    accent: "#e8002d",
+    accentLight: "#ff6680",
+    accentRgb: "232,0,45",
+    darkBg: "#221515",
+    darkBgHover: "#281a1a",
+    heroMid: "#1a1212",
+    heroEnd: "#100a0a",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/TGR_Haas_F1_Team_Logo_(2026).svg.png",
+    premium: true,
+  },
+  audi: {
+    id: "audi",
+    label: "Audi",
+    accent: "#b8b8b8",
+    accentLight: "#d9d9d9",
+    accentRgb: "184,184,184",
+    darkBg: "#1a1a1e",
+    darkBgHover: "#22222a",
+    heroMid: "#141418",
+    heroEnd: "#0e0e10",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/Audif1.com_logo17_(cropped).svg.png",
+    premium: true,
+  },
+  cadillac: {
+    id: "cadillac",
+    label: "Cadillac",
+    accent: "#8b1a1a",
+    accentLight: "#c44d4d",
+    accentRgb: "139,26,26",
+    darkBg: "#1e1515",
+    darkBgHover: "#261a1a",
+    heroMid: "#161110",
+    heroEnd: "#0e0a0a",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/Cadillac_Formula_1_Team_Logo_(2025).svg.png",
+    premium: true,
+  },
+  rb: {
+    id: "rb",
+    label: "Racing Bulls",
+    accent: "#6699ff",
+    accentLight: "#99bbff",
+    accentRgb: "102,153,255",
+    darkBg: "#151a2a",
+    darkBgHover: "#1a2035",
+    heroMid: "#101525",
+    heroEnd: "#0a0d1a",
+    carImg: "/F1/red_F1.png",
+    carOffset: "translate-y-6 sm:translate-y-7",
+    carWidth: "w-52 sm:w-72 md:w-[22rem]",
+    logoImg: "/F1/Logos/RacingBulls_allmode.png",
+    premium: true,
   },
 };
 
@@ -148,35 +288,69 @@ function LogoMark({ accent }: { accent: string }) {
   );
 }
 
+function TeamLogo({ tid, team, isActive, onClick }: { tid: TeamId; team: typeof teams[TeamId]; isActive: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative flex flex-col items-center gap-1.5 cursor-pointer transition-all duration-200"
+    >
+      <div
+        className="rounded-lg overflow-hidden transition-all duration-200"
+        style={{
+          border: isActive ? `2px solid ${team.accent}` : '2px solid rgba(255,255,255,0.1)',
+          boxShadow: isActive ? `0 0 12px rgba(${team.accentRgb},0.5)` : 'none',
+          backgroundColor: isActive ? `rgba(${team.accentRgb},0.15)` : '#18181b',
+        }}
+      >
+        {team.logoImg ? (
+          <img
+            src={team.logoImg}
+            alt={team.label}
+            className="w-9 h-9 sm:w-11 sm:h-11 object-contain p-1 transition-opacity duration-200"
+            style={{ opacity: isActive ? 1 : 0.4 }}
+          />
+        ) : (
+          <div
+            className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center text-[10px] sm:text-xs font-bold transition-opacity duration-200"
+            style={{ opacity: isActive ? 1 : 0.4, color: team.accent }}
+          >
+            {team.label.slice(0, 2).toUpperCase()}
+          </div>
+        )}
+      </div>
+      <span
+        className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider transition-all duration-200"
+        style={{ color: isActive ? team.accent : 'rgba(255,255,255,0.35)' }}
+      >
+        {team.label}
+      </span>
+    </button>
+  );
+}
+
 export default function F1Page() {
-  const [showDevKit, setShowDevKit] = useState(false);
-  const [f1DevKitState, setF1DevKitState] = useState(initialF1DevKitState);
   const [selectedTeam, setSelectedTeam] = useState<TeamId>("ferrari");
   const team = teams[selectedTeam];
+  const isPremium = team.premium;
 
-  const handleF1DevKitStateChange = (updates: Partial<typeof initialF1DevKitState>) => {
-    setF1DevKitState((prev) => ({ ...prev, ...updates }));
-  };
+  const leftTeams = teamOrder.slice(0, 6);
+  const rightTeams = teamOrder.slice(6, 12);
 
   return (
     <main className="min-h-screen bg-[#0e0e10] text-[#efeff1]">
-      <style>{`
-        .f1-scroll::-webkit-scrollbar { width: 5px; }
-        .f1-scroll::-webkit-scrollbar-track { background: rgba(26, 21, 21, 0.3); border-radius: 3px; }
-        .f1-scroll::-webkit-scrollbar-thumb { background: rgba(${team.accentRgb}, 0.35); border-radius: 3px; }
-        .f1-scroll::-webkit-scrollbar-thumb:hover { background: rgba(${team.accentRgb}, 0.6); }
-      `}</style>
-      <style>{flagWaveStyles}</style>
+      {isPremium && <style>{flagWaveStyles}</style>}
       <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="mx-auto flex h-16 sm:h-20 max-w-7xl items-center justify-between px-4 sm:px-5 lg:px-8">
-          <Link href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Elo Labs home">
-            <LogoMark accent={team.accent} />
-            <div className="flex flex-col">
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">Elo Labs</span>
-              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] drop-shadow-[0_0_10px_rgba(${team.accentRgb},0.5)] animate-pulse" style={{ color: team.accent }}>Tournament Platform</span>
-            </div>
-          </Link>
-          <div className="hidden sm:flex items-center gap-2">
+        <nav className="mx-auto grid h-16 sm:h-20 max-w-[1440px] grid-cols-3 items-center px-4 sm:px-5 lg:px-8">
+          <div className="flex justify-start">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3" aria-label="Elo Labs home">
+              <LogoMark accent={team.accent} />
+              <div className="flex flex-col">
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">Elo Labs</span>
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] drop-shadow-[0_0_10px_rgba(${team.accentRgb},0.5)] animate-pulse" style={{ color: team.accent }}>Tournament Platform</span>
+              </div>
+            </Link>
+          </div>
+          <div className="hidden sm:flex items-center justify-center gap-3 whitespace-nowrap">
             <a href="/f1" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest" style={{ color: team.accent }}>F1</a>
             <span className="text-white/20 text-xs">|</span>
             <a href="/ufc" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">UFC</a>
@@ -187,7 +361,7 @@ export default function F1Page() {
             <span className="text-white/20 text-xs">|</span>
             <a href="/pga" className="px-2.5 sm:px-3.5 py-1.5 rounded text-sm sm:text-base font-bold tracking-widest text-white/50 hover:text-white transition-colors">PGA</a>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex justify-end">
             <MobileNav
               sportLinks={[
                 { href: "/f1", label: "F1", isActive: true },
@@ -198,13 +372,6 @@ export default function F1Page() {
               ]}
               accentColor={team.accent}
             />
-            <a href="#" className="relative flex h-9 sm:h-10 items-center gap-2 rounded-md px-3 sm:px-4 text-xs sm:text-sm font-semibold text-white border overflow-hidden transition-all" style={{ background: `linear-gradient(to bottom, ${team.btnFrom}, ${team.btnTo})`, borderColor: team.btnBorder }}>
-              <span className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 1px, transparent 2px)', backgroundSize: '4px 100%' }} />
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="relative z-10 sm:w-4 sm:h-4"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill={team.accentLight}/></svg>
-              <span className="relative z-10 hidden sm:inline">Login with Discord</span>
-              <span className="relative z-10 sm:hidden">Login</span>
-              <ArrowRight size={14} className="relative z-10 sm:w-4 sm:h-4" style={{ color: team.accentLight }} />
-            </a>
           </div>
         </nav>
       </header>
@@ -212,123 +379,89 @@ export default function F1Page() {
       <section className="relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24 min-h-[calc(100vh+50px)] sm:min-h-screen" style={{ backgroundColor: '#0e0e10' }}>
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,#0e0e10_0%,var(--hero-mid)_40%,var(--hero-end)_100%)]" style={{ ['--hero-mid' as string]: team.heroMid, ['--hero-end' as string]: team.heroEnd }} />
-          <div className="absolute top-0 left-[10%] w-20 sm:w-[150px] h-20 sm:h-[150px] rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: team.accent, opacity: 0.2 }} />
-          <div className="absolute top-0 right-[10%] w-20 sm:w-[150px] h-20 sm:h-[150px] rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: team.accent, opacity: 0.2 }} />
-          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `radial-gradient(ellipse 80% 50% at 50% 0%, rgba(${team.accentRgb},0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 30% 20%, rgba(${team.accentRgb},0.1) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 70% 20%, rgba(${team.accentRgb},0.1) 0%, transparent 50%)` }} />
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
-            <line className="flow-line" x1="0" y1="220" x2="100" y2="220" stroke={team.accent} strokeWidth="1" opacity="0.2"/>
-            <line className="flow-line-delay-1" x1="0" y1="250" x2="80" y2="250" stroke={team.accent} strokeWidth="1" opacity="0.15"/>
-            <line className="flow-line-delay-2" x1="0" y1="240" x2="60" y2="240" stroke={team.accent} strokeWidth="1" opacity="0.1"/>
-            <line className="flow-line" x1="0" y1="265" x2="120" y2="265" stroke="#fff" strokeWidth="1" opacity="0.1"/>
-            <line className="flow-line-delay-1" x1="0" y1="275" x2="90" y2="275" stroke="#fff" strokeWidth="1" opacity="0.08"/>
-          </svg>
-          <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-96 pointer-events-none">
-            <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 400">
-              <defs>
-                <pattern id="asphalt" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
-                  <rect width="40" height="20" fill="#1a1a1a"/><line x1="0" y1="19" x2="40" y2="19" stroke="#2a2a2a" strokeWidth="1"/><line x1="20" y1="0" x2="20" y2="20" stroke="#333" strokeWidth="0.5" strokeDasharray="4 2"/>
-                </pattern>
-                <pattern id="raceLine" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                  <rect width="100" height="100" fill="url(#asphalt)"/><path d="M0 80 Q25 75, 50 80 T100 80" stroke={team.accent} strokeWidth="3" fill="none" opacity="0.6"/><path d="M0 60 Q25 55, 50 60 T100 60" stroke="#fff" strokeWidth="2" fill="none" opacity="0.4"/>
-                </pattern>
-              </defs>
-              <path d="M0 300 Q150 250, 300 280 T600 300 T900 280 Q1050 250, 1200 300 L1200 400 L0 400 Z" fill="url(#raceLine)"/>
-              <path d="M0 320 Q150 270, 300 300 T600 320 T900 300 Q1050 270, 1200 320" stroke={team.accent} strokeWidth="4" fill="none"/>
-              <path d="M0 350 Q150 300, 300 330 T600 350 T900 330 Q1050 300, 1200 350" stroke="#fff" strokeWidth="2" fill="none" opacity="0.5"/>
-              <g className="animate-road"><line x1="0" y1="320" x2="1200" y2="320" stroke={team.accent} strokeWidth="4" strokeDasharray="40 40"/></g>
-              <g className="animate-road-white"><line x1="0" y1="350" x2="1200" y2="350" stroke="#fff" strokeWidth="2" strokeDasharray="40 40"/></g>
-            </svg>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e10] via-transparent to-transparent" />
-          </div>
+
+          {isPremium && (
+            <>
+              <div className="absolute top-0 left-[10%] w-20 sm:w-[150px] h-20 sm:h-[150px] rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: team.accent, opacity: 0.2 }} />
+              <div className="absolute top-0 right-[10%] w-20 sm:w-[150px] h-20 sm:h-[150px] rounded-full blur-3xl pointer-events-none" style={{ backgroundColor: team.accent, opacity: 0.2 }} />
+              <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `radial-gradient(ellipse 80% 50% at 50% 0%, rgba(${team.accentRgb},0.15) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 30% 20%, rgba(${team.accentRgb},0.1) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 70% 20%, rgba(${team.accentRgb},0.1) 0%, transparent 50%)` }} />
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+                <line className="flow-line" x1="0" y1="220" x2="100" y2="220" stroke={team.accent} strokeWidth="1" opacity="0.2"/>
+                <line className="flow-line-delay-1" x1="0" y1="250" x2="80" y2="250" stroke={team.accent} strokeWidth="1" opacity="0.15"/>
+                <line className="flow-line-delay-2" x1="0" y1="240" x2="60" y2="240" stroke={team.accent} strokeWidth="1" opacity="0.1"/>
+                <line className="flow-line" x1="0" y1="265" x2="120" y2="265" stroke="#fff" strokeWidth="1" opacity="0.1"/>
+                <line className="flow-line-delay-1" x1="0" y1="275" x2="90" y2="275" stroke="#fff" strokeWidth="1" opacity="0.08"/>
+              </svg>
+            </>
+          )}
+
+          {isPremium && (
+            <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-96 pointer-events-none">
+              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 400">
+                <defs>
+                  <pattern id="asphalt" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+                    <rect width="40" height="20" fill="#1a1a1a"/><line x1="0" y1="19" x2="40" y2="19" stroke="#2a2a2a" strokeWidth="1"/><line x1="20" y1="0" x2="20" y2="20" stroke="#333" strokeWidth="0.5" strokeDasharray="4 2"/>
+                  </pattern>
+                  <pattern id="raceLine" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <rect width="100" height="100" fill="url(#asphalt)"/><path d="M0 80 Q25 75, 50 80 T100 80" stroke={team.accent} strokeWidth="3" fill="none" opacity="0.6"/><path d="M0 60 Q25 55, 50 60 T100 60" stroke="#fff" strokeWidth="2" fill="none" opacity="0.4"/>
+                  </pattern>
+                </defs>
+                <path d="M0 300 Q150 250, 300 280 T600 300 T900 280 Q1050 250, 1200 300 L1200 400 L0 400 Z" fill="url(#raceLine)"/>
+                <path d="M0 320 Q150 270, 300 300 T600 320 T900 300 Q1050 270, 1200 320" stroke={team.accent} strokeWidth="4" fill="none"/>
+                <path d="M0 350 Q150 300, 300 330 T600 350 T900 330 Q1050 300, 1200 350" stroke="#fff" strokeWidth="2" fill="none" opacity="0.5"/>
+                <g className="animate-road"><line x1="0" y1="320" x2="1200" y2="320" stroke={team.accent} strokeWidth="4" strokeDasharray="40 40"/></g>
+                <g className="animate-road-white"><line x1="0" y1="350" x2="1200" y2="350" stroke="#fff" strokeWidth="2" strokeDasharray="40 40"/></g>
+              </svg>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e10] via-transparent to-transparent" />
+            </div>
+          )}
+
           <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 flex gap-6 sm:gap-10 md:gap-14 px-4 pointer-events-none">
             <div className="text-center"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-white">0</div><div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">Races</div></div>
             <div className="text-center"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-white">0</div><div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">Drivers</div></div>
             <div className="text-center"><div className="text-lg sm:text-xl md:text-2xl font-extrabold text-white">0</div><div className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider">Teams</div></div>
           </div>
 
-          <div className="absolute inset-x-0 top-[5%] sm:top-[7%] lg:top-[8%] z-10 flex flex-col items-center gap-3 px-4">
-            <div className="flex items-center gap-2 sm:gap-3">
-              {(["ferrari", "redbull", "mercedes"] as TeamId[]).map((tid) => {
-                const t = teams[tid];
-                const isActive = selectedTeam === tid;
-                return (
-                  <button
-                    key={tid}
-                    onClick={() => setSelectedTeam(tid)}
-                    className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider transition-all duration-200 border cursor-pointer hover:opacity-90"
-                    style={{
-                      backgroundColor: isActive ? t.accent : 'transparent',
-                      borderColor: isActive ? t.accent : 'rgba(255,255,255,0.2)',
-                      color: isActive ? '#fff' : 'rgba(255,255,255,0.5)',
-                    }}
-                  >
-                    <span className="inline-block h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full" style={{ backgroundColor: t.accent }} />
-                    {t.label}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="absolute left-3 sm:left-5 lg:left-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3 sm:gap-4">
+            {leftTeams.map((tid) => (
+              <TeamLogo key={tid} tid={tid} team={teams[tid]} isActive={selectedTeam === tid} onClick={() => setSelectedTeam(tid)} />
+            ))}
+          </div>
+
+          <div className="absolute right-3 sm:right-5 lg:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3 sm:gap-4">
+            {rightTeams.map((tid) => (
+              <TeamLogo key={tid} tid={tid} team={teams[tid]} isActive={selectedTeam === tid} onClick={() => setSelectedTeam(tid)} />
+            ))}
           </div>
 
           <div className="absolute inset-x-0 top-[14%] sm:top-[16%] lg:top-[16%] flex justify-center">
             <div className="text-center px-4">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white">F1 Racing Tournaments</h1>
               <p className="mt-2 sm:mt-3 text-sm sm:text-base text-white/70 max-w-md mx-auto">Compete in Formula 1 tournaments. Track lap times, climb the grid, and become the champion.</p>
+              {!isPremium && (
+                <p className="mt-2 text-xs sm:text-sm font-medium" style={{ color: team.accent }}>Free tier — upgrade for team themes, car visuals &amp; more</p>
+              )}
             </div>
           </div>
-          <div className="absolute inset-0 flex items-center justify-center px-4">
-            <div className="flex flex-col items-center">
-              <div className="flex items-end justify-center gap-2">
-                <svg className="opacity-40 sm:opacity-50 -rotate-12" width="50" height="100" viewBox="0 0 50 100" fill="none"><defs><pattern id="checker-left-f1" x="0" y="0" width="12.5" height="12.5" patternUnits="userSpaceOnUse"><rect width="12.5" height="12.5" fill="white"/><rect width="6.25" height="6.25" fill="#111"/><rect x="6.25" y="6.25" width="6.25" height="6.25" fill="#111"/></pattern><clipPath id="flag-clip-left"><path d="M48,5 L2,8 L0,75 L46,78 Z"/></clipPath></defs><g className="animate-flag-cloth-right" clipPath="url(#flag-clip-left)"><rect x="0" y="0" width="50" height="80" fill="url(#checker-left-f1)"/></g><line x1="46" y1="0" x2="46" y2="100" stroke="#888" strokeWidth="3" strokeLinecap="round"/><line x1="46" y1="0" x2="46" y2="100" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/><circle cx="46" cy="2" r="4" fill="#888" stroke="#666" strokeWidth="0.5"/></svg>
-                <svg className="opacity-40 sm:opacity-50 rotate-12" width="50" height="100" viewBox="0 0 50 100" fill="none"><defs><pattern id="checker-right-f1" x="0" y="0" width="12.5" height="12.5" patternUnits="userSpaceOnUse"><rect width="12.5" height="12.5" fill="white"/><rect width="6.25" height="6.25" fill="#111"/><rect x="6.25" y="6.25" width="6.25" height="6.25" fill="#111"/></pattern><clipPath id="flag-clip-right"><path d="M2,5 L48,8 L50,75 L4,78 Z"/></clipPath></defs><g className="animate-flag-cloth" clipPath="url(#flag-clip-right)"><rect x="0" y="0" width="50" height="80" fill="url(#checker-right-f1)"/></g><line x1="4" y1="0" x2="4" y2="100" stroke="#888" strokeWidth="3" strokeLinecap="round"/><line x1="4" y1="0" x2="4" y2="100" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/><circle cx="4" cy="2" r="4" fill="#888" stroke="#666" strokeWidth="0.5"/></svg>
+
+          {isPremium && (
+            <div className="absolute inset-0 flex items-center justify-center px-4">
+              <div className="flex flex-col items-center">
+                <div className="flex items-end justify-center gap-2">
+                  <svg className="opacity-40 sm:opacity-50 -rotate-12" width="50" height="100" viewBox="0 0 50 100" fill="none"><defs><pattern id="checker-left-f1" x="0" y="0" width="12.5" height="12.5" patternUnits="userSpaceOnUse"><rect width="12.5" height="12.5" fill="white"/><rect width="6.25" height="6.25" fill="#111"/><rect x="6.25" y="6.25" width="6.25" height="6.25" fill="#111"/></pattern><clipPath id="flag-clip-left"><path d="M48,5 L2,8 L0,75 L46,78 Z"/></clipPath></defs><g className="animate-flag-cloth-right" clipPath="url(#flag-clip-left)"><rect x="0" y="0" width="50" height="80" fill="url(#checker-left-f1)"/></g><line x1="46" y1="0" x2="46" y2="100" stroke="#888" strokeWidth="3" strokeLinecap="round"/><line x1="46" y1="0" x2="46" y2="100" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/><circle cx="46" cy="2" r="4" fill="#888" stroke="#666" strokeWidth="0.5"/></svg>
+                  <svg className="opacity-40 sm:opacity-50 rotate-12" width="50" height="100" viewBox="0 0 50 100" fill="none"><defs><pattern id="checker-right-f1" x="0" y="0" width="12.5" height="12.5" patternUnits="userSpaceOnUse"><rect width="12.5" height="12.5" fill="white"/><rect width="6.25" height="6.25" fill="#111"/><rect x="6.25" y="6.25" width="6.25" height="6.25" fill="#111"/></pattern><clipPath id="flag-clip-right"><path d="M2,5 L48,8 L50,75 L4,78 Z"/></clipPath></defs><g className="animate-flag-cloth" clipPath="url(#flag-clip-right)"><rect x="0" y="0" width="50" height="80" fill="url(#checker-right-f1)"/></g><line x1="4" y1="0" x2="4" y2="100" stroke="#888" strokeWidth="3" strokeLinecap="round"/><line x1="4" y1="0" x2="4" y2="100" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/><circle cx="4" cy="2" r="4" fill="#888" stroke="#666" strokeWidth="0.5"/></svg>
+                </div>
+                <img src={team.carImg} alt={`${team.label} F1 Car`} className={`relative z-10 ${team.carWidth} h-auto drop-shadow-2xl ${team.carOffset}`} />
               </div>
-              <img src={team.carImg} alt={`${team.label} F1 Car`} className={`w-48 sm:w-64 md:w-80 h-auto drop-shadow-2xl ${team.carOffset}`} />
-              <div className="w-48 sm:w-64 md:w-80 h-6 bg-gradient-to-t to-transparent blur-xl -mt-16 sm:-mt-20" style={{ backgroundImage: `linear-gradient(to top, rgba(${team.accentRgb},0.6), transparent)` }} />
             </div>
-          </div>
+          )}
+          {!isPremium && (
+            <div className="absolute inset-0 flex items-center justify-center px-4">
+              <img src="/F1/Logos/f1-logo-png-red-large-900x231.png" alt="F1 Logo" className="relative z-10 w-48 sm:w-64 md:w-80 h-auto opacity-40" />
+            </div>
+          )}
         </div>
       </section>
-
-      <section className="relative py-8 lg:py-12 overflow-hidden" style={{ backgroundColor: '#0e0e10' }}>
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `url('/F1/f1_cornerbg.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundAttachment: 'local',
-          }}
-        />
-        <div className="relative mx-auto max-w-[1400px] px-4 sm:px-5 lg:px-8">
-          <div className="hidden lg:grid lg:grid-cols-4 gap-4">
-            <div className="min-w-[300px] border border-white/10 rounded-lg p-4 overflow-y-auto f1-scroll" style={{ backgroundColor: team.darkBg }}>
-              <SeasonSetup state={f1DevKitState} onStateChange={handleF1DevKitStateChange} />
-            </div>
-            <div className="min-w-[300px] border border-white/10 rounded-lg p-4 overflow-y-auto f1-scroll" style={{ backgroundColor: team.darkBg }}>
-              <DriverStandings state={f1DevKitState} onStateChange={handleF1DevKitStateChange} />
-            </div>
-            <div className="min-w-[300px] border border-white/10 rounded-lg p-4 overflow-y-auto f1-scroll" style={{ backgroundColor: team.darkBg }}>
-              <ConstructorStandings state={f1DevKitState} onStateChange={handleF1DevKitStateChange} />
-            </div>
-            <div className="min-w-[300px] border border-white/10 rounded-lg p-4 overflow-y-auto f1-scroll" style={{ backgroundColor: team.darkBg }}>
-              <DriverManagement state={f1DevKitState} />
-            </div>
-          </div>
-
-          <div className="lg:hidden text-center">
-            <button
-              onClick={() => setShowDevKit(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border font-medium text-base transition-colors"
-              style={{ backgroundColor: `rgba(${team.accentRgb},0.1)`, borderColor: `rgba(${team.accentRgb},0.3)`, color: team.accent }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
-              Preview Dev Kit
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <F1DevKitModal isOpen={showDevKit} onClose={() => setShowDevKit(false)} />
 
       <section className="relative py-16 sm:py-20 lg:py-28" style={{ backgroundColor: team.heroMid }}>
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(${team.accentRgb},0.08) 0%, transparent 70%)` }} />
@@ -340,15 +473,17 @@ export default function F1Page() {
 
       <section className="relative py-16 sm:py-20 lg:py-28 overflow-hidden" style={{ backgroundColor: team.heroEnd }}>
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(${team.accentRgb},0.1) 0%, transparent 70%)` }} />
-        <div
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: `url('/F1/cockpitview.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundAttachment: 'local',
-          }}
-        />
+        {isPremium && (
+          <div
+            className="absolute inset-0 opacity-25"
+            style={{
+              backgroundImage: `url('/F1/cockpitview.png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              backgroundAttachment: 'local',
+            }}
+          />
+        )}
         <div className="relative mx-auto max-w-5xl px-4 sm:px-5 lg:px-8">
           <div className="flex items-center gap-3 mb-6 sm:mb-8"><div className="w-8 sm:w-12 h-[3px]" style={{ backgroundColor: team.accent }} /><h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white">For racing communities</h2></div>
           <div className="mt-8 sm:mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
